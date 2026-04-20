@@ -44,7 +44,10 @@ export function useSiteSettings() {
         .select("title, description, emoji, start_year, start_month, end_year, end_month, confirmed_weekend")
         .eq("id", true)
         .maybeSingle();
-      if (error) throw error;
+      if (error) {
+        console.warn("site_settings error:", error.message);
+        return DEFAULTS;
+      }
       return (data as SiteSettings) ?? DEFAULTS;
     },
     initialData: DEFAULTS,

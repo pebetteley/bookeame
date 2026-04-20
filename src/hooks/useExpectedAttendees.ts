@@ -6,8 +6,8 @@ export function useExpectedAttendees() {
     queryKey: ["expected-attendees"],
     queryFn: async () => {
       const { data, error } = await supabase.from("expected_attendees").select("person_name").order("person_name");
-      if (error) throw error;
-      return data.map((r) => r.person_name);
+      if (error) { console.warn("expected_attendees table error:", error.message); return []; }
+      return (data ?? []).map((r) => r.person_name);
     },
   });
 }

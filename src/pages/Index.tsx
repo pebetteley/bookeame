@@ -8,6 +8,7 @@ import { AdminPanel } from "@/components/AdminPanel";
 import { ConfirmedBanner } from "@/components/ConfirmedBanner";
 import { ParticipationProgress } from "@/components/ParticipationProgress";
 import { ConfettiEffect } from "@/components/ConfettiEffect";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { LogOut, Shield, Moon, Sun, Share2, Check, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSiteSettings, getDateRange } from "@/hooks/useSiteSettings";
@@ -118,7 +119,7 @@ export default function Index() {
         {/* Participation progress */}
         <ParticipationProgress />
 
-        {isAdmin && <div className="animate-fade-up delay-1"><AdminPanel /></div>}
+        {isAdmin && <div className="animate-fade-up delay-1"><ErrorBoundary><AdminPanel /></ErrorBoundary></div>}
 
         <section className="animate-fade-up delay-2">
           <h2 className="mb-4 text-lg font-semibold tracking-tight flex items-center gap-2">

@@ -28,8 +28,8 @@ export function useReactions() {
     queryKey: ["reactions"],
     queryFn: async () => {
       const { data, error } = await supabase.from("reactions").select("*").order("created_at");
-      if (error) throw error;
-      return data;
+      if (error) { console.warn("reactions table error:", error.message); return []; }
+      return data ?? [];
     },
   });
 }

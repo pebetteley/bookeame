@@ -7,8 +7,6 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "14.5"
   }
@@ -37,6 +35,7 @@ export type Database = {
       }
       site_settings: {
         Row: {
+          confirmed_weekend: string | null
           description: string
           emoji: string
           end_month: number
@@ -48,6 +47,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          confirmed_weekend?: string | null
           description?: string
           emoji?: string
           end_month?: number
@@ -59,6 +59,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          confirmed_weekend?: string | null
           description?: string
           emoji?: string
           end_month?: number
@@ -68,6 +69,51 @@ export type Database = {
           start_year?: number
           title?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      reactions: {
+        Row: {
+          id: string
+          weekend_key: string
+          person_name: string
+          emoji: string
+          comment: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          weekend_key: string
+          person_name: string
+          emoji?: string
+          comment?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          weekend_key?: string
+          person_name?: string
+          emoji?: string
+          comment?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      expected_attendees: {
+        Row: {
+          id: string
+          person_name: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          person_name: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          person_name?: string
+          created_at?: string
         }
         Relationships: []
       }
@@ -88,7 +134,6 @@ export type Database = {
 }
 
 type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
-
 type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
 export type Tables<
@@ -185,23 +230,6 @@ export type Enums<
   ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
     ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
-    : never
-
-export type CompositeTypes<
-  PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema["CompositeTypes"]
-    | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
-  }
-    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
-> = PublicCompositeTypeNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
-}
-  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
-    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
 
 export const Constants = {

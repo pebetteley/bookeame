@@ -48,12 +48,12 @@ export function NameEntry({ onSubmit }: NameEntryProps) {
     <div className="flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-md animate-fade-in">
         <div className="rounded-2xl border bg-card p-8 shadow-lg">
-          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-            <UserRound className="h-8 w-8 text-primary" />
+          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-3xl">
+            <span aria-hidden>{settings.emoji}</span>
           </div>
-          <h1 className="mb-2 text-center text-2xl font-bold">DDS Chorlitos</h1>
+          <h1 className="mb-2 text-center text-2xl font-bold">{settings.title}</h1>
           <p className="mb-6 text-center text-muted-foreground">
-            Ingresa tu nombre para marcar los días que <strong>no puedes</strong> asistir
+            {settings.description}
           </p>
           <form
             onSubmit={(e) => {
